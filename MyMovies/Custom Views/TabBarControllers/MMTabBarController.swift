@@ -21,8 +21,9 @@ class MMTabBarController: UITabBarController {
     func createToSeeNavigationController() -> UINavigationController {
         let toSeeVC = ToSeeVC()
         toSeeVC.title = "Movies To See"
-        toSeeVC.tabBarItem = UITabBarItem(tabBarSystemItem: .search, tag: 0)
-    
+        //toSeeVC.tabBarItem = UITabBarItem(tabBarSystemItem: .search, tag: 0)
+        toSeeVC.tabBarItem = UITabBarItem(title: "To See", image: UIImage(systemName: "star.circle.fill"), tag: 0)
+        
         return UINavigationController(rootViewController: toSeeVC)
     }
     
@@ -30,8 +31,8 @@ class MMTabBarController: UITabBarController {
     func createAlreadyWatchedNavigationController() -> UINavigationController {
         let alreadyWatchedVC = AlreadyWatchedVC()
         alreadyWatchedVC.title = "Already Watched"
-        alreadyWatchedVC.tabBarItem = UITabBarItem(tabBarSystemItem: .favorites, tag: 1)
-    
+        alreadyWatchedVC.tabBarItem = UITabBarItem(title: "Already Watched", image: UIImage(systemName: "checkmark.rectangle.fill"), tag: 1)
+        
         return UINavigationController(rootViewController: alreadyWatchedVC)
     }
 }

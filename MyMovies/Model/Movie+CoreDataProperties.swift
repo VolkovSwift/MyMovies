@@ -2,7 +2,7 @@
 //  Movie+CoreDataProperties.swift
 //  MyMovies
 //
-//  Created by user on 2/17/20.
+//  Created by user on 3/4/20.
 //  Copyright © 2020 Vlad Volkov. All rights reserved.
 //
 //
@@ -18,5 +18,11 @@ extension Movie {
     }
 
     @NSManaged public var name: String?
+    @NSManaged public var genre: String?
+    @NSManaged public var details: String?
+    @NSManaged public var rating: Double
+    @NSManaged public var date: Date?
+    @NSManaged public var isFavorite: Bool
+    @NSManaged public var wasWatched: Bool
 
 }

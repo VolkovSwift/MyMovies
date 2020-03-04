@@ -13,13 +13,13 @@ class ToSeeVC: UIViewController {
     
     private let appDelegate = UIApplication.shared.delegate as! AppDelegate
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
-    
     let tableView = UITableView()
     
     lazy var fetchedResultsController: NSFetchedResultsController<Movie> = {
         let fetchRequest:NSFetchRequest<Movie> = Movie.fetchRequest()
         let nameSort = NSSortDescriptor(key: #keyPath(Movie.name), ascending: true)
         fetchRequest.sortDescriptors = [nameSort]
+        fetchRequest.predicate = NSPredicate(format: "wasWatched == %@", NSNumber(value: false))
         
         let fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil)
         
@@ -48,7 +48,6 @@ class ToSeeVC: UIViewController {
         let addButton = UIBarButtonItem(barButtonSystemItem: .add, target: self,
                                         action: #selector(addButtonPressed))
         navigationItem.rightBarButtonItem = addButton
-        
     }
     
     
@@ -105,13 +104,8 @@ extension ToSeeVC: UITableViewDataSource, UITableViewDelegate {
         }
         
         let doneAction = UIContextualAction(style: .normal, title: "Watched") { (action, view, handler) in
-            //TODO
-//            let movie = self.fetchedResultsController.object(at: indexPath)
-//            let destVC = AlreadyWatchedVC()
-//            tableView.deleteRows(at: [indexPath], with: .fade)
-//            destVC.alreadyWatchedMovies.append(movie)
-            
-//            self.navigationController?.pushViewController(destVC, animated: true)
+            let movie = self.fetchedResultsController.object(at: indexPath)
+            movie.wasWatched = true
         }
         
         doneAction.backgroundColor = .systemGreen
@@ -145,10 +139,12 @@ extension ToSeeVC {
             
             if let movie = movie {
                 movie.name = nameTextField.text
+                movie.wasWatched = false
                 self.appDelegate.saveContext()
             } else {
                 let movie = Movie(entity: Movie.entity(), insertInto: self.context)
                 movie.name = nameTextField.text
+                movie.wasWatched = false
                 self.appDelegate.saveContext()
             }
         }
@@ -183,6 +179,8 @@ extension ToSeeVC: NSFetchedResultsControllerDelegate {
             tableView.insertRows(at: [newIndexPath!], with: .automatic)
         case .delete:
             tableView.deleteRows(at: [indexPath!], with: .automatic)
+        @unknown default:
+            fatalError()
         }
     }
     
