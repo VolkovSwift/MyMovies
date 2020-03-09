@@ -86,6 +86,15 @@ extension ToSeeVC: UITableViewDataSource, UITableViewDelegate {
         return cell
     }
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let movie = fetchedResultsController.object(at: indexPath)
+        let destVC = MovieInfoVC()
+        destVC.currentMovie = movie
+        
+        let navController = UINavigationController(rootViewController: destVC)
+        present(navController, animated: true)
+    }
+    
     
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         
@@ -105,7 +114,9 @@ extension ToSeeVC: UITableViewDataSource, UITableViewDelegate {
         
         let doneAction = UIContextualAction(style: .normal, title: "Watched") { (action, view, handler) in
             let movie = self.fetchedResultsController.object(at: indexPath)
+            movie.date = Date()
             movie.wasWatched = true
+            self.appDelegate.saveContext()
         }
         
         doneAction.backgroundColor = .systemGreen
@@ -140,11 +151,13 @@ extension ToSeeVC {
             if let movie = movie {
                 movie.name = nameTextField.text
                 movie.wasWatched = false
+                movie.date = Date()
                 self.appDelegate.saveContext()
             } else {
                 let movie = Movie(entity: Movie.entity(), insertInto: self.context)
                 movie.name = nameTextField.text
                 movie.wasWatched = false
+                movie.date = Date()
                 self.appDelegate.saveContext()
             }
         }

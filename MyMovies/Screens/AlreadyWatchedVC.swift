@@ -96,7 +96,7 @@ extension AlreadyWatchedVC: UITableViewDataSource, UITableViewDelegate {
         let movie = fetchedResultsController.object(at: indexPath)
         
         let destVC = MovieInfoVC()
-        destVC.movieName = movie.name
+        destVC.currentMovie = movie
         let navController = UINavigationController(rootViewController: destVC)
         
         present(navController, animated: true)
@@ -154,6 +154,7 @@ extension AlreadyWatchedVC {
                 let movie = Movie(entity: Movie.entity(), insertInto: self.context)
                 movie.name = nameTextField.text
                 movie.wasWatched = true
+                movie.date = Date()
                 self.appDelegate.saveContext()
             }
         }

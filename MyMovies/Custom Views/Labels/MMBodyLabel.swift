@@ -1,15 +1,15 @@
 //
-//  MMTitleLabel.swift
+//  MMBodyLabel.swift
 //  MyMovies
 //
-//  Created by user on 2/11/20.
+//  Created by user on 3/5/20.
 //  Copyright © 2020 Vlad Volkov. All rights reserved.
 //
 
 import UIKit
 
-class MMTitleLabel: UILabel {
-
+class MMBodyLabel: UILabel {
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         configure()
@@ -21,18 +21,19 @@ class MMTitleLabel: UILabel {
     }
     
     
-    convenience init(textAlignment:NSTextAlignment, fontSize:CGFloat) {
-        self.init(frame:.zero)
+    convenience init(textAlignment:NSTextAlignment) {
+        self.init(frame: .zero)
         self.textAlignment = textAlignment
-        self.font = UIFont.systemFont(ofSize: fontSize, weight: .bold)
     }
     
     
     private func configure() {
-        textColor = .label
+        textColor = .secondaryLabel
+        font = UIFont.preferredFont(forTextStyle: .body)
+        adjustsFontForContentSizeCategory = true
         adjustsFontSizeToFitWidth = true
-        minimumScaleFactor = 0.9
-        lineBreakMode = .byTruncatingTail
+        minimumScaleFactor = 0.75
+        lineBreakMode = .byWordWrapping
         translatesAutoresizingMaskIntoConstraints = false
     }
     

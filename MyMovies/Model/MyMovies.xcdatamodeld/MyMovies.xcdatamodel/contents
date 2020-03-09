@@ -6,7 +6,7 @@
         <attribute name="genre" optional="YES" attributeType="String"/>
         <attribute name="isFavorite" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="name" attributeType="String"/>
-        <attribute name="rating" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="rating" optional="YES" attributeType="Double" minValueString="1" maxValueString="10" defaultValueString="0.0" usesScalarValueType="YES"/>
         <attribute name="wasWatched" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
     </entity>
     <elements>
