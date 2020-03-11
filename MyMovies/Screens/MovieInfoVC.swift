@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CoreData
 
 class MovieInfoVC: UIViewController {
     
@@ -23,10 +24,20 @@ class MovieInfoVC: UIViewController {
     let checkmarkImage = UIImage(systemName: "checkmark.seal.fill")
     
     
+    init(currentMovie: Movie) {
+        super.init(nibName: nil, bundle: nil)
+        self.currentMovie = currentMovie
+        title = currentMovie.name
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         configureViewController()
-        configureUIElements()
+        configureUIElements(movie: currentMovie)
         layoutUI()
         configureRateActionButton()
     }
@@ -44,11 +55,14 @@ class MovieInfoVC: UIViewController {
         navigationItem.rightBarButtonItem = doneButton
     }
     
+    @objc func dismissVC() {
+        dismiss(animated:true)
+    }
     
-    func configureUIElements() {
+    
+    func configureUIElements(movie: Movie) {
         rateDescriptionLabel.text = "You rated this film as:"
-        currentRatingLabel.text = "7/10"
-        
+        currentRatingLabel.text = "\(movie.rating)/10"
         dateLabel.text = "Watched at \(currentMovie.date!.convertToMonthYearFormat())"
     }
     
@@ -94,13 +108,15 @@ class MovieInfoVC: UIViewController {
         do {
             currentMovie.rating = rating
             try context.save()
-            
-            currentRatingLabel.text = "\(currentMovie.rating)/10"
+            configureUIElements(movie: currentMovie)
         } catch let error as NSError {
-            print("Could not save \(error), \(error.userInfo)")
+            if error.domain == NSCocoaErrorDomain && (error.code == NSValidationNumberTooLargeError || error.code == NSValidationNumberTooSmallError) {
+                rate()
+            } else {
+                print("Could not save \(error), \(error.userInfo)")
+            }
         }
     }
-    
     func layoutUI() {
         view.addSubview(rateDescriptionLabel)
         view.addSubview(currentRatingLabel)
@@ -114,7 +130,7 @@ class MovieInfoVC: UIViewController {
             
             currentRatingLabel.centerYAnchor.constraint(equalTo: rateDescriptionLabel.centerYAnchor),
             currentRatingLabel.leadingAnchor.constraint(equalTo: rateDescriptionLabel.trailingAnchor, constant: 30),
-            currentRatingLabel.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -80),
+            currentRatingLabel.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -60),
             currentRatingLabel.heightAnchor.constraint(equalToConstant: 50),
             
             dateLabel.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -50),
@@ -124,8 +140,5 @@ class MovieInfoVC: UIViewController {
         ])
     }
     
-    
-    @objc func dismissVC() {
-        dismiss(animated:true)
-    }
 }
+

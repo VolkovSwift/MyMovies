@@ -11,15 +11,15 @@ import CoreData
 
 class AlreadyWatchedVC: UIViewController {
     
-    private let appDelegate = UIApplication.shared.delegate as! AppDelegate
-    private let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+    let appDelegate = UIApplication.shared.delegate as! AppDelegate
+    let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
     let tableView = UITableView()
     
     lazy var fetchedResultsController: NSFetchedResultsController<Movie> = {
         let fetchRequest: NSFetchRequest<Movie> = Movie.fetchRequest()
-        let nameSort = NSSortDescriptor(key: #keyPath(Movie.name), ascending: true)
-        fetchRequest.sortDescriptors = [nameSort]
+        let dateSort = NSSortDescriptor(key: #keyPath(Movie.date), ascending: false)
+        fetchRequest.sortDescriptors = [dateSort]
         fetchRequest.predicate = NSPredicate(format: "wasWatched == %@", NSNumber(value: true))
         
         let fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil)
@@ -60,7 +60,7 @@ class AlreadyWatchedVC: UIViewController {
     func configureTableView() {
         view.addSubview(tableView)
         tableView.frame = view.bounds
-        tableView.rowHeight = 40
+        tableView.rowHeight = 50
         
         tableView.dataSource = self
         tableView.delegate = self
@@ -94,13 +94,7 @@ extension AlreadyWatchedVC: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let movie = fetchedResultsController.object(at: indexPath)
-        
-        let destVC = MovieInfoVC()
-        destVC.currentMovie = movie
-        let navController = UINavigationController(rootViewController: destVC)
-        
-        present(navController, animated: true)
-        
+        presentMovieInfoVC(movie: movie)
     }
     
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
@@ -108,63 +102,23 @@ extension AlreadyWatchedVC: UITableViewDataSource, UITableViewDelegate {
         let deleteAction = UIContextualAction(style: .destructive, title: "Delete") { (action, view, handler) in
             let movieToDelete = self.fetchedResultsController.object(at: indexPath)
             self.context.delete(movieToDelete)
-            self.appDelegate.saveContext()
+            do {
+                try self.context.save()
+            } catch let error as NSError {
+                print("Can't save \(error), \(error.userInfo)")
+            }
         }
         
         let editAction = UIContextualAction(style: .normal, title: "Edit") { (action, view, handler) in
             let movie = self.fetchedResultsController.object(at: indexPath)
             self.alertForAddAndUpdateMovie(movie) {
                 tableView.reloadRows(at: [indexPath], with: .automatic)
-                print(movie)
             }
         }
         
         let configuration = UISwipeActionsConfiguration(actions: [deleteAction, editAction])
         configuration.performsFirstActionWithFullSwipe = false
         return configuration
-    }
-}
-
-extension AlreadyWatchedVC {
-    func alertForAddAndUpdateMovie(_ movie:Movie? = nil, completion:(() -> Void)? = nil) {
-        
-        var title = "New Movie"
-        var doneButton = "Save"
-        
-        if movie != nil {
-            title = "Edit Movie"
-            doneButton = "Update"
-        }
-        
-        let alert = UIAlertController(title: title, message: "Please insert new name", preferredStyle: .alert)
-        
-        alert.addTextField { textField in
-            textField.placeholder = "Enter Team Name"
-        }
-        let saveAction = UIAlertAction(title: doneButton, style: .default) {[weak self] action in
-            guard let self = self else {return}
-            
-            guard let nameTextField = alert.textFields?.first else { return }
-            
-            if let movie = movie {
-                movie.name = nameTextField.text
-
-                self.appDelegate.saveContext()
-            } else {
-                let movie = Movie(entity: Movie.entity(), insertInto: self.context)
-                movie.name = nameTextField.text
-                movie.wasWatched = true
-                movie.date = Date()
-                self.appDelegate.saveContext()
-            }
-        }
-        
-        let cancelAction = UIAlertAction(title: "Cancel", style: .destructive)
-        
-        alert.addAction(saveAction)
-        alert.addAction(cancelAction)
-        
-        present(alert, animated: true, completion: completion)
     }
 }
 
