@@ -8,7 +8,7 @@
 
 import UIKit
 
-class MMTitleLabel: UILabel {
+final class MMTitleLabel: UILabel {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -24,7 +24,7 @@ class MMTitleLabel: UILabel {
     convenience init(textAlignment:NSTextAlignment, fontSize:CGFloat) {
         self.init(frame:.zero)
         self.textAlignment = textAlignment
-        self.font = UIFont.systemFont(ofSize: fontSize, weight: .bold)
+        self.font = UIFont.systemFont(ofSize: fontSize, weight: .medium)
     }
     
     

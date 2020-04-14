@@ -8,7 +8,7 @@
 
 import UIKit
 
-class MMTabBarController: UITabBarController {
+final class MMTabBarController: UITabBarController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -18,7 +18,7 @@ class MMTabBarController: UITabBarController {
     }
     
     
-    func createToSeeNavigationController() -> UINavigationController {
+    private func createToSeeNavigationController() -> UINavigationController {
         let toSeeVC = ToSeeVC()
         toSeeVC.title = "Movies To See"
         //toSeeVC.tabBarItem = UITabBarItem(tabBarSystemItem: .search, tag: 0)
@@ -28,7 +28,7 @@ class MMTabBarController: UITabBarController {
     }
     
     
-    func createAlreadyWatchedNavigationController() -> UINavigationController {
+    private func createAlreadyWatchedNavigationController() -> UINavigationController {
         let alreadyWatchedVC = AlreadyWatchedVC()
         alreadyWatchedVC.title = "Already Watched"
         alreadyWatchedVC.tabBarItem = UITabBarItem(title: "Already Watched", image: UIImage(systemName: "checkmark.rectangle.fill"), tag: 1)

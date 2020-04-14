@@ -9,13 +9,15 @@
 import UIKit
 import CoreData
 
-class ToSeeVC: UIViewController {
+final class ToSeeVC: UIViewController {
     
     let appDelegate = UIApplication.shared.delegate as! AppDelegate
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
-    let tableView = UITableView()
     
-    lazy var fetchedResultsController: NSFetchedResultsController<Movie> = {
+    private let tableView = UITableView()
+    private let rowHeight: CGFloat = 50
+    
+    private lazy var fetchedResultsController: NSFetchedResultsController<Movie> = {
         let fetchRequest:NSFetchRequest<Movie> = Movie.fetchRequest()
         let dateSort = NSSortDescriptor(key: #keyPath(Movie.date), ascending: true)
         fetchRequest.sortDescriptors = [dateSort]
@@ -42,7 +44,7 @@ class ToSeeVC: UIViewController {
     }
     
     
-    func configureViewController() {
+    private func configureViewController() {
         view.backgroundColor = .systemBackground
         navigationController?.navigationBar.prefersLargeTitles = true
         let addButton = UIBarButtonItem(barButtonSystemItem: .add, target: self,
@@ -51,10 +53,10 @@ class ToSeeVC: UIViewController {
     }
     
     
-    func configureTableView() {
+    private func configureTableView() {
         view.addSubview(tableView)
         tableView.frame = view.bounds
-        tableView.rowHeight = 50
+        tableView.rowHeight = rowHeight
         
         tableView.dataSource = self
         tableView.delegate = self

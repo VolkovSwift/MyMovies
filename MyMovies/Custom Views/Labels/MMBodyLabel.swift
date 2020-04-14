@@ -8,7 +8,7 @@
 
 import UIKit
 
-class MMBodyLabel: UILabel {
+final class MMBodyLabel: UILabel {
     
     override init(frame: CGRect) {
         super.init(frame: frame)

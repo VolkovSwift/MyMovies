@@ -9,14 +9,16 @@
 import UIKit
 import CoreData
 
-class AlreadyWatchedVC: UIViewController {
+final class AlreadyWatchedVC: UIViewController {
     
     let appDelegate = UIApplication.shared.delegate as! AppDelegate
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
-    let tableView = UITableView()
+    private let tableView = UITableView()
+    private let rowHeight:CGFloat = 50
     
-    lazy var fetchedResultsController: NSFetchedResultsController<Movie> = {
+    
+    private lazy var fetchedResultsController: NSFetchedResultsController<Movie> = {
         let fetchRequest: NSFetchRequest<Movie> = Movie.fetchRequest()
         let dateSort = NSSortDescriptor(key: #keyPath(Movie.date), ascending: false)
         fetchRequest.sortDescriptors = [dateSort]
@@ -60,7 +62,7 @@ class AlreadyWatchedVC: UIViewController {
     func configureTableView() {
         view.addSubview(tableView)
         tableView.frame = view.bounds
-        tableView.rowHeight = 50
+        tableView.rowHeight = rowHeight
         
         tableView.dataSource = self
         tableView.delegate = self
@@ -68,7 +70,7 @@ class AlreadyWatchedVC: UIViewController {
         tableView.register(MovieCell.self, forCellReuseIdentifier: MovieCell.reuseID)
     }
     
-    @objc func addButtonPressed() {
+    @objc private func addButtonPressed() {
         alertForAddAndUpdateMovie()
     }
 }

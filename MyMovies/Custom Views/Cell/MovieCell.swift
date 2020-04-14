@@ -8,7 +8,7 @@
 
 import UIKit
 
-class MovieCell: UITableViewCell {
+final class MovieCell: UITableViewCell {
 
     static let reuseID = "Movie"
     let movieNameLabel = MMTitleLabel(textAlignment: .left, fontSize: 20)

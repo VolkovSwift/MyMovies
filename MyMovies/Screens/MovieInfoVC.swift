@@ -14,14 +14,12 @@ class MovieInfoVC: UIViewController {
     private let appDelegate = UIApplication.shared.delegate as! AppDelegate
     private let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
-    var rateDescriptionLabel = MMTitleLabel(textAlignment: .left, fontSize: 20)
-    var currentRatingLabel = MMTitleLabel(textAlignment: .left, fontSize: 20)
-    var dateLabel = MMBodyLabel(textAlignment: .center)
-    var rateActionButton = MMButton(backgroundColor: .systemGray, title: "Rate")
+    private var rateDescriptionLabel = MMTitleLabel(textAlignment: .left, fontSize: 20)
+    private var currentRatingLabel = MMTitleLabel(textAlignment: .left, fontSize: 20)
+    private var dateLabel = MMBodyLabel(textAlignment: .center)
+    private var rateActionButton = MMButton(backgroundColor: .systemGray, title: "Rate")
     
-    var currentMovie: Movie!
-    
-    let checkmarkImage = UIImage(systemName: "checkmark.seal.fill")
+    private var currentMovie: Movie!
     
     
     init(currentMovie: Movie) {
@@ -33,6 +31,7 @@ class MovieInfoVC: UIViewController {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -47,29 +46,28 @@ class MovieInfoVC: UIViewController {
         super.viewWillAppear(animated)
     }
     
-    func configureViewController() {
+    private func configureViewController() {
         view.backgroundColor = .systemBackground
         title = currentMovie.name
-        //navigationController?.navigationBar.prefersLargeTitles = true
         let doneButton = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(dismissVC))
         navigationItem.rightBarButtonItem = doneButton
     }
+    
     
     @objc func dismissVC() {
         dismiss(animated:true)
     }
     
     
-    func configureUIElements(movie: Movie) {
+    private func configureUIElements(movie: Movie) {
         rateDescriptionLabel.text = "You rated this film as:"
         currentRatingLabel.text = "\(movie.rating)/10"
         dateLabel.text = "Watched at \(currentMovie.date!.convertToMonthYearFormat())"
     }
     
-    func configureRateActionButton() {
+    private func configureRateActionButton() {
         
         rateActionButton.addTarget(self, action: #selector(rate), for: .touchUpInside)
-        
         view.addSubview(rateActionButton)
         
         NSLayoutConstraint.activate([
@@ -78,10 +76,10 @@ class MovieInfoVC: UIViewController {
             rateActionButton.widthAnchor.constraint(equalTo: dateLabel.widthAnchor),
             rateActionButton.heightAnchor.constraint(equalToConstant: 50),
         ])
-        
     }
     
-    @objc func rate() {
+    
+    @objc private func rate() {
         let alert = UIAlertController(title: "New rating", message: "Please rate this film", preferredStyle: .alert)
         alert.addTextField { (textField) in
             textField.keyboardType = .decimalPad
@@ -99,8 +97,9 @@ class MovieInfoVC: UIViewController {
         
         present(alert, animated: true)
     }
+   
     
-    func update(rating: String?) {
+    private func update(rating: String?) {
         guard let ratingString = rating,
             let rating = Double(ratingString) else {
                 return
@@ -117,10 +116,13 @@ class MovieInfoVC: UIViewController {
             }
         }
     }
-    func layoutUI() {
+    
+    
+    private func layoutUI() {
         view.addSubview(rateDescriptionLabel)
         view.addSubview(currentRatingLabel)
         view.addSubview(dateLabel)
+        
         
         NSLayoutConstraint.activate([
             rateDescriptionLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
@@ -139,6 +141,5 @@ class MovieInfoVC: UIViewController {
             dateLabel.heightAnchor.constraint(equalToConstant: 40),
         ])
     }
-    
 }
 
