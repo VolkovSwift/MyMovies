@@ -38,7 +38,7 @@
 		CE8E2AA123F1A509009AB591 /* MyMovies.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = MyMovies.xcdatamodel; sourceTree = "<group>"; };
 		CE8E2AA323F1A50B009AB591 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		CE8E2AA623F1A50B009AB591 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		CE8E2AA823F1A50B009AB591 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		CE8E2AA823F1A50B009AB591 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Info.plist; path = MyMovies/Support/Info.plist; sourceTree = SOURCE_ROOT; };
 		CE8E2AB023F1A6A0009AB591 /* MMTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MMTabBarController.swift; sourceTree = "<group>"; };
 		CE8E2AB323F1A74C009AB591 /* ToSeeVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToSeeVC.swift; sourceTree = "<group>"; };
 		CE8E2AB523F1A760009AB591 /* AlreadyWatchedVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlreadyWatchedVC.swift; sourceTree = "<group>"; };
@@ -75,6 +75,8 @@
 		CE4FD2482410238D00F0A132 /* Support */ = {
 			isa = PBXGroup;
 			children = (
+				CE8E2AA823F1A50B009AB591 /* Info.plist */,
+				CE8E2A9723F1A509009AB591 /* AppDelegate.swift */,
 				CE8E2A9923F1A509009AB591 /* SceneDelegate.swift */,
 				CE8E2AA323F1A50B009AB591 /* Assets.xcassets */,
 				CE8E2AA523F1A50B009AB591 /* LaunchScreen.storyboard */,
@@ -101,13 +103,11 @@
 		CE8E2A9623F1A509009AB591 /* MyMovies */ = {
 			isa = PBXGroup;
 			children = (
-				CE8E2A9723F1A509009AB591 /* AppDelegate.swift */,
 				CE4FD2482410238D00F0A132 /* Support */,
 				CE8E2ABA23F1B51A009AB591 /* Model */,
 				CE8E2AB723F1B48F009AB591 /* Extensions */,
 				CE8E2AB223F1A72D009AB591 /* Screens */,
 				CE8E2AAE23F1A670009AB591 /* Custom Views */,
-				CE8E2AA823F1A50B009AB591 /* Info.plist */,
 			);
 			path = MyMovies;
 			sourceTree = "<group>";
@@ -402,7 +402,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 8392B7X4JB;
-				INFOPLIST_FILE = MyMovies/Info.plist;
+				INFOPLIST_FILE = MyMovies/Support/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -421,7 +421,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 8392B7X4JB;
-				INFOPLIST_FILE = MyMovies/Info.plist;
+				INFOPLIST_FILE = MyMovies/Support/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
