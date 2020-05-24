@@ -14,7 +14,7 @@ final class ToSeeVC: UIViewController {
     let appDelegate = UIApplication.shared.delegate as! AppDelegate
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
-    private let tableView = UITableView()
+    let tableView = UITableView()
     private let rowHeight: CGFloat = 50
     
     private lazy var fetchedResultsController: NSFetchedResultsController<Movie> = {
